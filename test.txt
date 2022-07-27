@@ -1,0 +1,28 @@
+Python: 3.6+
+Testing Env: Pytest
+
+
+Objective:
+    1. Rewrite the main function to use an object that returns all the proper data to the output. 
+    2. The function should also return the bad data that was ignored or not added to the commands. 
+    A bad data is any entry in json which either does not contain a function key,
+       or the function value does not contain the proper data read in step 1.
+    3. Then prepare TDD test cases for each function you create using pytest.
+
+
+Submission:
+    Please upload to your public GitHub with a repository name of algo-github-test and submit the link for review.
+
+
+Rewrite Expectations:
+    Use Python hinting to define functions
+    Use list comprehension to simplify the loops
+
+
+Testing Expectations:
+    Show use of parametrized test cases.
+    Test inputs to functions for None, Dict, Int, String, Tuple
+    Show tests for positive cases
+    Use setup to default variables
+    Each function test should be in its own file
+    There should be a mock of the function `random.sample(data, 2)` as part of your output
