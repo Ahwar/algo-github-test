@@ -1,6 +1,4 @@
-from imaplib import Commands
 import json
-from queue import PriorityQueue
 import random
 
 
@@ -47,11 +45,11 @@ def get_bad_commands(data: dict) -> int:
     """
 
     bad_commands = [
-        row for row in data if "function" in row and row["function"] == "bad value"
+        row
+        for row in data
+        if ("function" in row and row["function"] == "bad value")
+        or ("value" in row and row["value"] == "bad value")
     ]
-    bad_commands.append(
-        [row for row in data if "value" in row and row["value"] == "bad value"]
-    )
     return bad_commands
 
 
@@ -59,13 +57,13 @@ def main() -> (dict, dict, dict, dict, dict):
     # NOTE: Get all the parse commands
     with open("data.txt", "r") as file:
         data = json.loads(file.read())
-    parse_commands = get_parse_commands(data=data)
+    parse_commands = get_parse_commands(data)
     print(f"parse_commands: {parse_commands}")
 
     # NOTE: Get all the copy commands
     with open("data.txt", "r") as file:
         data = json.loads(file.read())
-    copy_commands = get_copy_commands(data=data)
+    copy_commands = get_copy_commands(data)
     print(f"copy_commands: {copy_commands}")
 
     # NOTE: Put the two lists together and say which list it came from as well as the item number for that list
@@ -91,8 +89,7 @@ def main() -> (dict, dict, dict, dict, dict):
     print(f"random_commands: {random_commands}")
 
     # NOTE: Write the methodology to catch bad_commands
-    bad_commands = list()
-    bad_commands = get_bad_commands(data=data)
+    bad_commands = get_bad_commands(data)
     return parse_commands, copy_commands, functional_commands, random_commands, bad_commands
 
 
