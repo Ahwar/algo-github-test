@@ -1,4 +1,6 @@
+from imaplib import Commands
 import json
+from queue import PriorityQueue
 import random
 
 
@@ -68,23 +70,19 @@ def main() -> (dict, dict, dict, dict, dict):
 
     # NOTE: Put the two lists together and say which list it came from as well as the item number for that list
     functional_commands = []
-    counter = 0
-    for row in parse_commands:
-        counter += 1
-        new_row = row.copy()
-        new_row['_list'] = 'parse'
-        new_row['_counter'] = counter
-        functional_commands.append(new_row)
-    counter = 0
-    for row in copy_commands:
-        counter += 1
-        new_row = row.copy()
-        new_row['_list'] = 'copy'
-        new_row['_counter'] = counter
-        functional_commands.append(new_row)
+    
+    def get_functional_commands(dict: dict, value: str):
+        counter = 0
+        for row in dict:
+            counter += 1
+            new_row = row.copy()
+            new_row['_list'] = value
+            new_row['_counter'] = counter
+            functional_commands.append(new_row)
 
+    get_functional_commands(parse_commands, 'parse')
+    get_functional_commands(copy_commands, 'copy')
     print(f"functional_commands: {functional_commands}")
-
     # NOTE: Get random sampling of data
     random_commands = []
     with open("data.txt", "r") as file:
